@@ -1,7 +1,9 @@
+CROSS=arm-obreey-linux-gnueabi
 TOR=tor-0.4.1.6
 LIBEVENT2=2.1.10-stable
 LIBEVENT=libevent-$(LIBEVENT2)
-CC=arm-obreey-linux-gnueabi-gcc
+CC=$(CROSS)-gcc
+STRIP=$(CROSS)-strip
 ver=$(shell git describe --tags)
 CONFIGURE=\
 	--disable-asciidoc \
@@ -21,16 +23,19 @@ CONFIGURE=\
 	--sbindir=/mnt/secure/bin \
 	--datarootdir=/mnt/secure \
 	--disable-unicode \
-	--host=arm-obreey-linux-gnueabi \
+	--host=$(CROSS) \
 	--disable-tool-name-check \
 	--with-libevent-dir=$(CURDIR)/$(LIBEVENT) \
 	tor_cv_ldflags__pie=no \
 	CC=$(CC)
 
-all: $(TOR)/src/app/tor $(LIBEVENT)/libevent.a proxy.so
+PockeTor-$(ver).zip: $(TOR)/src/app/tor $(LIBEVENT)/libevent.a proxy.so
+	$(STRIP) $(TOR)/src/app/tor -o pocketor/tor
+	cp -f proxy.so pocketor/
+	zip PockeTor-$(ver).zip PockeTor.app pocketor/*
 
 clean:
-	rm -rf $(TOR) $(LIBEVENT) proxy.so
+	rm -rf $(TOR) $(LIBEVENT) proxy.so PockeTor-$(ver).zip
 
 proxy.so: proxy.c
 	$(CC) -shared -fPIC -o proxy.so -O2 -s proxy.c
