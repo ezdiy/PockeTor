@@ -1,0 +1,32 @@
+<html>
+<head>
+<style>
+body {
+	margin: 0 0 0 0;
+}
+</style>
+</head>
+<body>
+<pre id=t></pre>
+<script>
+var pos = 0;
+var old = "";
+function flicker() {
+           var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'notices.txt', true);
+            xhr.responseType = 'text';
+            xhr.onload = function(data){
+		var t = xhr.responseText + "";
+		if (t != old) {
+                	document.getElementById('t').innerText = t;
+			window.scrollTo(0,document.body.scrollHeight);
+		}
+		old = t;
+  	        setTimeout(flicker, 1000);
+            }
+            xhr.send();
+}
+flicker();
+</script>
+</body>
+</html>
