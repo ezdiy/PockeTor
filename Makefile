@@ -30,12 +30,12 @@ CONFIGURE=\
 	CC=$(CC)
 
 
-pocketor/tor: $(TOR)/src/app/tor
-	$(STRIP) $(TOR)/src/app/tor -o pocketor/tor
-
 PockeTor-$(ver).zip: pocketor/tor $(LIBEVENT)/libevent.a proxy.so
 	cp -f proxy.so pocketor/
 	zip PockeTor-$(ver).zip PockeTor.app pocketor/*
+
+pocketor/tor: $(TOR)/src/app/tor
+	$(STRIP) $(TOR)/src/app/tor -o pocketor/tor
 
 clean:
 	rm -rf $(TOR) $(LIBEVENT) proxy.so PockeTor-$(ver).zip
