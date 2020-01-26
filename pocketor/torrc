@@ -1,4 +1,4 @@
-SOCKSPort 0.0.0.0:1080
+SOCKSPort 127.0.0.1:1080
 SOCKSPolicy accept *
 RunAsDaemon 1
 DataDirectory /tmp/tordata
