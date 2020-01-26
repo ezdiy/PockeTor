@@ -29,8 +29,11 @@ CONFIGURE=\
 	tor_cv_ldflags__pie=no \
 	CC=$(CC)
 
-PockeTor-$(ver).zip: $(TOR)/src/app/tor $(LIBEVENT)/libevent.a proxy.so
+
+pocketor/tor: $(TOR)/src/app/tor
 	$(STRIP) $(TOR)/src/app/tor -o pocketor/tor
+
+PockeTor-$(ver).zip: pocketor/tor $(LIBEVENT)/libevent.a proxy.so
 	cp -f proxy.so pocketor/
 	zip PockeTor-$(ver).zip PockeTor.app pocketor/*
 
